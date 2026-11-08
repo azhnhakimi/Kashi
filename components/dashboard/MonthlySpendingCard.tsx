@@ -47,7 +47,7 @@ const MonthlySpendingCard = () => {
         <Text className="text-kashi-text-primary font-grotesk-bold text-4xl my-4">
           RM 2,3345.80
         </Text>
-        <ComparisonBadge isHigher={false} percentage={13.8} />
+        <ComparisonBadge isHigher={true} percentage={13.8} />
       </View>
       <View>
         <Ionicons
