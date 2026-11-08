@@ -43,7 +43,7 @@ export function TabBar({ state, navigateToTab }: TabBarProps) {
 
   return (
     <View
-      className="flex-row border-t-[2.5px] border-kashi-accent bg-kashi-bg"
+      className="flex-row border-t-[0.5px] border-kashi-accent/40 bg-kashi-bg pt-2"
       style={{ paddingBottom: insets.bottom }}
     >
       <View className="flex-row h-16 flex-1">
