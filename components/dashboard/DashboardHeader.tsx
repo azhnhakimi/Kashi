@@ -7,7 +7,7 @@ const DashboardHeader = () => {
       <View className="bg-kashi-accent p-2 rounded-lg">
         <Ionicons name="grid" size={18} color="white" />
       </View>
-      <Text className="text-kashi-text-primary font-semibold text-xl">
+      <Text className="text-kashi-text-primary font-grotesk-semibold text-xl">
         Dashboard
       </Text>
     </View>

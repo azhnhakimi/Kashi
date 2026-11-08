@@ -78,7 +78,7 @@ export function TabBar({ state, navigateToTab }: TabBarProps) {
                 color={"#fff"}
               />
               <Text
-                className="text-[8px] font-semibold text-white"
+                className="text-[8px] font-grotestk-semibold text-white"
                 allowFontScaling={false}
               >
                 {tab.label}

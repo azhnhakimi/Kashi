@@ -19,7 +19,7 @@ const ComparisonBadge = ({ isHigher, percentage }: ComparisonBadgeProps) => {
         className={`${isHigher ? "text-kashi-negative" : "text-kashi-positive"}`}
       />
       <Text
-        className={`${isHigher ? "text-kashi-negative" : "text-kashi-positive"} `}
+        className={`${isHigher ? "text-kashi-negative" : "text-kashi-positive"} font-grotesk`}
       >
         {percentage}% {text} than last month
       </Text>
@@ -38,11 +38,13 @@ const MonthlySpendingCard = () => {
   return (
     <View className="bg-kashi-card flex flex-row px-4 py-6 rounded-2xl">
       <View className="flex-1">
-        <Text className="uppercase text-kashi-text-secondary font-semibold leading-tight text-lg">
+        <Text className="uppercase text-kashi-text-secondary font-grotesk-semibold leading-tight text-lg">
           {getCurrentMonthYear()}
         </Text>
-        <Text className="text-kashi-text-secondary">Total Spent</Text>
-        <Text className="text-kashi-text-primary font-bold text-4xl my-4">
+        <Text className="text-kashi-text-secondary font-grotesk">
+          Total Spent
+        </Text>
+        <Text className="text-kashi-text-primary font-grotesk-bold text-4xl my-4">
           RM 2,3345.80
         </Text>
         <ComparisonBadge isHigher={false} percentage={13.8} />

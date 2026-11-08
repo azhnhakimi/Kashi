@@ -17,7 +17,10 @@ const getCurrentMonthRange = () => {
 };
 
 const DailySpendingChart = () => {
-  const font = useFont(require("@/assets/fonts/Roboto.ttf"), 11);
+  const font = useFont(
+    require("@expo-google-fonts/space-grotesk/400Regular/SpaceGrotesk_400Regular.ttf"),
+    11,
+  );
 
   const chartData = MOCK_DAILY_SPENDING.map((item) => ({
     ...item,
@@ -27,10 +30,10 @@ const DailySpendingChart = () => {
   return (
     <View className="mt-4">
       <View className="flex flex-row justify-between items-center w-full mb-4">
-        <Text className="text-kashi-text-primary font-semibold text-lg">
+        <Text className="text-kashi-text-primary font-grotesk-semibold text-lg">
           Daily Spending
         </Text>
-        <Text className="text-kashi-text-secondary font-medium text-sm">
+        <Text className="text-kashi-text-secondary font-grotesk-medium text-sm">
           {getCurrentMonthRange()}
         </Text>
       </View>

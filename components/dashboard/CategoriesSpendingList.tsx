@@ -33,8 +33,8 @@ const CategoryCard = ({ item }: CategoryCardProps) => {
         <Ionicons name={meta.icon} size={20} color={meta.color} />
       </View>
 
-      <Text className="flex-1 text-kashi-text-primary">{meta.label}</Text>
-      <Text className="text-kashi-text-muted font-bold">
+      <Text className="flex-1 text-kashi-text-primary font-grotesk">{meta.label}</Text>
+      <Text className="text-kashi-text-muted font-grotesk-bold">
         RM {item.amount.toFixed(2)}
       </Text>
     </View>
@@ -50,13 +50,13 @@ const CategoriesSpendingList = ({ data }: CategoriesSpendingListProps) => {
   return (
     <View>
       <View className="flex flex-row justify-between items-center w-full mb-4">
-        <Text className="text-kashi-text-primary font-semibold text-lg">
+        <Text className="text-kashi-text-primary font-grotesk-semibold text-lg">
           Categories
         </Text>
 
         {data.length > 3 && (
           <Pressable onPress={() => setShowAll(!showAll)}>
-            <Text className="text-kashi-text-secondary font-medium text-sm">
+            <Text className="text-kashi-text-secondary font-grotesk-medium text-sm">
               {showAll ? "View Less" : "View More"}
             </Text>
           </Pressable>

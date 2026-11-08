@@ -34,6 +34,13 @@ module.exports = {
           others: "#9CA3AF",
         },
       },
+      fontFamily: {
+        sans: ["SpaceGrotesk_400Regular"],
+        grotesk: ["SpaceGrotesk_400Regular"],
+        "grotesk-medium": ["SpaceGrotesk_500Medium"],
+        "grotesk-semibold": ["SpaceGrotesk_600SemiBold"],
+        "grotesk-bold": ["SpaceGrotesk_700Bold"],
+      },
     },
   },
   plugins: [],
