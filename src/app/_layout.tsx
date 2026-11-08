@@ -1,3 +1,4 @@
+import "@/lib/nativewind";
 import { NavigationBar } from "expo-navigation-bar";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
