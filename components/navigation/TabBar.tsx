@@ -18,7 +18,12 @@ const TABS: {
   icon: IoniconsName;
   iconActive: IoniconsName;
 }[] = [
-  { name: "index", label: "HOME", icon: "home-outline", iconActive: "home" },
+  {
+    name: "index",
+    label: "DASHBOARD",
+    icon: "grid-outline",
+    iconActive: "grid",
+  },
   {
     name: "transactions",
     label: "TRANSACTIONS",
@@ -38,7 +43,7 @@ export function TabBar({ state, navigateToTab }: TabBarProps) {
 
   return (
     <View
-      className="flex-row border-t-[2.5px] border-[#111111] bg-kashi-accent"
+      className="flex-row border-t-[2.5px] border-kashi-accent bg-kashi-bg"
       style={{ paddingBottom: insets.bottom }}
     >
       <View className="flex-row h-16 flex-1">
@@ -54,11 +59,7 @@ export function TabBar({ state, navigateToTab }: TabBarProps) {
                 );
                 if (route) navigateToTab(route.key);
               }}
-              className={`flex-1 items-center justify-center gap-1 ${
-                isActive
-                  ? "bg-[#FF6B6B] border-x-[2.5px] border-b-[2.5px] border-[#111111]"
-                  : ""
-              }`}
+              className={`flex-1 items-center justify-center gap-1`}
               style={
                 isActive
                   ? {
@@ -74,14 +75,17 @@ export function TabBar({ state, navigateToTab }: TabBarProps) {
               <Ionicons
                 name={isActive ? tab.iconActive : tab.icon}
                 size={22}
-                color="#111111"
+                color={"#fff"}
               />
               <Text
-                className="text-[8px] font-semibold text-[#111111]"
+                className="text-[8px] font-semibold text-white"
                 allowFontScaling={false}
               >
                 {tab.label}
               </Text>
+              <View
+                className={`h-1 w-7 rounded-2xl ${isActive ? "bg-kashi-accent" : "bg-kashi-bg"}`}
+              />
             </Pressable>
           );
         })}
