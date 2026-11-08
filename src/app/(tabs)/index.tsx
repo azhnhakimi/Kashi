@@ -1,10 +1,11 @@
-import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function Index() {
   return (
-    <SafeAreaView className="flex flex-1 bg-kashi-bg">
-      <Text>Edit src/app/index.tsx to edit this screen.</Text>
+    <SafeAreaView className="flex-1 bg-kashi-bg px-4 py-2" edges={["top"]}>
+      <DashboardHeader />
     </SafeAreaView>
   );
 }
