@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 
 const TransactionsHeader = () => {
   return (
-    <View className="flex flex-row gap-3 items-center">
+    <View className="flex flex-row gap-3 items-center mb-4">
       <View className="bg-kashi-accent p-2 rounded-lg">
         <Ionicons name="receipt" size={18} color="white" />
       </View>

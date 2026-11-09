@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import AddTransactionBtn from "@/components/transactions/AddTransactionBtn";
 import MonthlyNavigator from "@/components/transactions/MonthlyNavigator";
+import TotalSpentCard from "@/components/transactions/TotalSpentCard";
 import TransactionsHeader from "@/components/transactions/TransactionsHeader";
 
 const Transactions = () => {
@@ -19,7 +20,7 @@ const Transactions = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-kashi-bg p-4 gap-6" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-kashi-bg p-4 gap-2" edges={["top"]}>
       <TransactionsHeader />
       <MonthlyNavigator
         date={currentDate}
@@ -28,6 +29,7 @@ const Transactions = () => {
         onNow={goToNow}
       />
       <AddTransactionBtn />
+      <TotalSpentCard value={526.7} />
     </SafeAreaView>
   );
 };
