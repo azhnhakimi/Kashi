@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import AddTransactionBtn from "@/components/transactions/AddTransactionBtn";
 import MonthlyNavigator from "@/components/transactions/MonthlyNavigator";
 import TransactionsHeader from "@/components/transactions/TransactionsHeader";
 
@@ -26,6 +27,7 @@ const Transactions = () => {
         onNext={goToNext}
         onNow={goToNow}
       />
+      <AddTransactionBtn />
     </SafeAreaView>
   );
 };

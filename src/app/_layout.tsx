@@ -35,6 +35,10 @@ export default function RootLayout() {
     <>
       <Stack screenOptions={{ contentStyle: { backgroundColor: "#01010D" } }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="transaction/create"
+          options={{ headerShown: false }}
+        />
       </Stack>
       <StatusBar style="light" />
       <NavigationBar style="light" />
