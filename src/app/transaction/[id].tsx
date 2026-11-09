@@ -32,7 +32,7 @@ const TransactionDetails = () => {
         date={date}
       />
       <View className="mt-auto gap-2 mb-2">
-        <EditTransactionBtn />
+        <EditTransactionBtn id={id}/>
         <DeleteTransactionBtn onPress={() => {}} />
       </View>
     </SafeAreaView>

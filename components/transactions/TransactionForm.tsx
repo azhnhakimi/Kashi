@@ -1,5 +1,6 @@
 import { type Category, CATEGORY_META } from "@/constants/category";
 import { colors } from "@/constants/colors";
+import type { Transaction } from "@/mock_data/transactions";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -46,6 +47,12 @@ const toCalendarDate = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
+};
+
+const fromCalendarDate = (dateString: string): Date => {
+  const [year, month, day] = dateString.split("-").map(Number);
+
+  return new Date(year, month - 1, day);
 };
 
 const hexToRgba = (hex: string, opacity: number) => {
@@ -188,8 +195,13 @@ const CategoryItem = ({ item, selected, onPress }: CategoryItemProps) => {
   );
 };
 
-const TransactionForm = () => {
+type TransactionFormProps = {
+  transaction?: Transaction;
+};
+
+const TransactionForm = ({ transaction }: TransactionFormProps) => {
   const route = useRouter();
+  const isEdit = !!transaction;
 
   const createPressed = useSharedValue(false);
   const createAnimatedStyle = useAnimatedStyle(() => ({
@@ -207,13 +219,20 @@ const TransactionForm = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [title, setTitle] = useState("");
-  const [amount, setAmount] = useState("");
-  const [date, setDate] = useState(new Date());
-  const [category, setCategory] = useState<Category>("food");
+  const [title, setTitle] = useState(transaction?.title ?? "");
+  const [amount, setAmount] = useState(
+    transaction ? String(transaction.amount) : "",
+  );
+  const [date, setDate] = useState(
+    transaction ? fromCalendarDate(transaction.date) : new Date(),
+  );
+  const [category, setCategory] = useState<Category>(
+    transaction?.category ?? "food",
+  );
 
   const handleSubmit = () => {
     const payload = {
+      ...(transaction && { id: transaction.id }),
       title,
       amount,
       date,
@@ -326,7 +345,7 @@ const TransactionForm = () => {
             className="p-3 rounded-lg flex justify-center items-center"
           >
             <Text className="text-kashi-text-onAccent font-grotesk-bold">
-              Create
+              {isEdit ? "Save" : "Create"}
             </Text>
           </Animated.View>
         </Pressable>

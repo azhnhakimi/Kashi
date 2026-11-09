@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-const EditTransactionBtn = () => {
+const EditTransactionBtn = ({ id }: { id: string }) => {
   const router = useRouter();
 
   const pressed = useSharedValue(false);
@@ -20,7 +20,12 @@ const EditTransactionBtn = () => {
 
   return (
     <Pressable
-      onPress={() => router.push("/transaction/create")}
+      onPress={() =>
+        router.push({
+          pathname: "/transaction/[id]/edit",
+          params: { id: id },
+        })
+      }
       onPressIn={() => (pressed.value = true)}
       onPressOut={() => (pressed.value = false)}
     >

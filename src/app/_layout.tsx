@@ -42,6 +42,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="transaction/create" />
         <Stack.Screen name="transaction/[id]" />
+        <Stack.Screen name="transaction/[id]/edit" />
       </Stack>
       <StatusBar style="light" />
       <NavigationBar style="light" />
