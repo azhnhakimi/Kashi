@@ -33,12 +33,15 @@ export default function RootLayout() {
 
   return (
     <>
-      <Stack screenOptions={{ contentStyle: { backgroundColor: "#01010D" } }}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="transaction/create"
-          options={{ headerShown: false }}
-        />
+      <Stack
+        screenOptions={{
+          contentStyle: { backgroundColor: "#01010D" },
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="transaction/create" />
+        <Stack.Screen name="transaction/[id]" />
       </Stack>
       <StatusBar style="light" />
       <NavigationBar style="light" />

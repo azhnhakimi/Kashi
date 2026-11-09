@@ -26,7 +26,7 @@ const AddTransactionBtn = () => {
     >
       <Animated.View
         style={animatedStyle}
-        className="flex flex-row justify-center items-center p-4 rounded-xl gap-1"
+        className="flex flex-row justify-center items-center p-3 rounded-xl gap-1"
       >
         <Entypo
           name="plus"

@@ -1,4 +1,4 @@
-import { Entypo, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 import { cssInterop } from "nativewind";
 
 cssInterop(Ionicons, {
@@ -11,6 +11,15 @@ cssInterop(Ionicons, {
 });
 
 cssInterop(Entypo, {
+  className: {
+    target: "style",
+    nativeStyleToProp: {
+      color: true,
+    },
+  },
+});
+
+cssInterop(AntDesign, {
   className: {
     target: "style",
     nativeStyleToProp: {
