@@ -6,6 +6,7 @@ import { MOCK_CATEGORY_SPENDING } from "@/mock_data/category_spending";
 import CategoriesSpendingList from "@/components/dashboard/CategoriesSpendingList";
 import DailySpendingChart from "@/components/dashboard/DailySpendingChart";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import LatestMonthStatsChart from "@/components/dashboard/LatestMonthsStatsChart";
 import MonthlySpendingCard from "@/components/dashboard/MonthlySpendingCard";
 
 export default function Index() {
@@ -20,6 +21,7 @@ export default function Index() {
         <MonthlySpendingCard />
         <CategoriesSpendingList data={MOCK_CATEGORY_SPENDING} />
         <DailySpendingChart />
+        <LatestMonthStatsChart />
       </ScrollView>
     </SafeAreaView>
   );
