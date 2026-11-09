@@ -30,12 +30,6 @@ const TABS: {
     icon: "receipt-outline",
     iconActive: "receipt",
   },
-  {
-    name: "archive",
-    label: "ARCHIVE",
-    icon: "archive-outline",
-    iconActive: "archive",
-  },
 ];
 
 export function TabBar({ state, navigateToTab }: TabBarProps) {
