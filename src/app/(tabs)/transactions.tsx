@@ -32,7 +32,6 @@ const Transactions = () => {
         onNext={goToNext}
         onNow={goToNow}
       />
-      <AddTransactionBtn />
       <TotalSpentCard value={526.7} />
       <ScrollView
         className="flex-1"
@@ -41,6 +40,7 @@ const Transactions = () => {
       >
         <TransactionItemsList data={MOCK_TRANSACTIONS} />
       </ScrollView>
+      <AddTransactionBtn />
     </SafeAreaView>
   );
 };
