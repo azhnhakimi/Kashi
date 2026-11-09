@@ -1,5 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Pressable, Text, View } from "react-native";
 
 type ComparisonBadgeProps = {
   isHigher: boolean;
@@ -28,6 +29,8 @@ const ComparisonBadge = ({ isHigher, percentage }: ComparisonBadgeProps) => {
 };
 
 const MonthlySpendingCard = () => {
+  const route = useRouter();
+
   const getCurrentMonthYear = () => {
     return new Intl.DateTimeFormat("en-US", {
       month: "long",
@@ -50,11 +53,17 @@ const MonthlySpendingCard = () => {
         <ComparisonBadge isHigher={true} percentage={13.8} />
       </View>
       <View>
-        <Ionicons
-          name="calendar-clear-outline"
-          size={24}
-          className="text-kashi-text-muted"
-        />
+        <Pressable
+          onPress={() => {
+            route.navigate("/(dev)/unmatched");
+          }}
+        >
+          <Ionicons
+            name="calendar-clear-outline"
+            size={24}
+            className="text-kashi-text-muted"
+          />
+        </Pressable>
       </View>
     </View>
   );
