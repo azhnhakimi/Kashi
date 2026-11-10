@@ -1,5 +1,5 @@
 import { CATEGORY_META } from "@/constants/category";
-import { type Transaction } from "@/mock_data/transactions";
+import type { Transaction } from "@/types/transaction";
 import { Ionicons } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useRouter } from "expo-router";

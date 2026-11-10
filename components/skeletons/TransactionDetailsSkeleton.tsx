@@ -8,6 +8,7 @@ const TransactionDetailsSkeleton = () => {
 
   return (
     <View
+      key={h}
       className="flex-1"
       onLayout={(e) => setH(e.nativeEvent.layout.height)}
     >

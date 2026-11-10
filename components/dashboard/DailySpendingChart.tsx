@@ -1,8 +1,11 @@
+import type { DailySpending } from "@/types/transaction";
 import { useFont } from "@shopify/react-native-skia";
 import { Text, View } from "react-native";
 import { Bar, CartesianChart } from "victory-native";
 
-import { MOCK_DAILY_SPENDING } from "@/mock_data/daily_spending";
+type DailySpendingChartProps = {
+  data: DailySpending[];
+};
 
 const getCurrentMonthRange = () => {
   const now = new Date();
@@ -16,13 +19,13 @@ const getCurrentMonthRange = () => {
   return day === 1 ? `${month} 1` : `${month} 1 - ${month} ${day}`;
 };
 
-const DailySpendingChart = () => {
+const DailySpendingChart = ({ data }: DailySpendingChartProps) => {
   const font = useFont(
     require("@expo-google-fonts/space-grotesk/400Regular/SpaceGrotesk_400Regular.ttf"),
     11,
   );
 
-  const chartData = MOCK_DAILY_SPENDING.map((item) => ({
+  const chartData = data.map((item) => ({
     ...item,
     day: new Date(`${item.date}T00:00:00`).getDate(),
   }));

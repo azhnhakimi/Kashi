@@ -7,3 +7,10 @@ export type Transaction = {
   category: Category;
   date: string;
 };
+
+export type DailySpending = {
+  date: string;
+  amount: number;
+};
+
+export type MonthlySpending = { month: string; amount: number };

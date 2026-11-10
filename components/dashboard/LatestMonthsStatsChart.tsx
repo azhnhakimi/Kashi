@@ -1,23 +1,26 @@
+import type { MonthlySpending } from "@/types/transaction";
 import { useFont } from "@shopify/react-native-skia";
 import { Text, View } from "react-native";
 import { Bar, CartesianChart } from "victory-native";
 
-import { monthlySpending } from "@/mock_data/monthly_spending";
+type LatestMonthStatsChartProps = {
+  data: MonthlySpending[];
+};
 
-const chartData = monthlySpending.map((item, index) => ({
-  ...item,
-  index,
-  label: item.month.split(" ")[0],
-}));
-
-const LatestMonthStatsChart = () => {
+const LatestMonthStatsChart = ({ data }: LatestMonthStatsChartProps) => {
   const font = useFont(
     require("@expo-google-fonts/space-grotesk/400Regular/SpaceGrotesk_400Regular.ttf"),
     11,
   );
 
-  const first = monthlySpending[0]?.month;
-  const last = monthlySpending[monthlySpending.length - 1]?.month;
+  const chartData = data.map((item, index) => ({
+    ...item,
+    index,
+    label: item.month.split(" ")[0],
+  }));
+
+  const first = data[0]?.month;
+  const last = data[data.length - 1]?.month;
 
   return (
     <View className="mt-4">

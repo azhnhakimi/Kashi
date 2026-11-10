@@ -4,7 +4,7 @@ import { Pressable, Text, View } from "react-native";
 
 type ComparisonBadgeProps = {
   isHigher: boolean;
-  percentage: number;
+  percentage: number | null;
 };
 
 const ComparisonBadge = ({ isHigher, percentage }: ComparisonBadgeProps) => {
@@ -28,7 +28,17 @@ const ComparisonBadge = ({ isHigher, percentage }: ComparisonBadgeProps) => {
   );
 };
 
-const MonthlySpendingCard = () => {
+type MonthlySpendingCardProps = {
+  total: number;
+  percentage: number | null;
+  direction: "higher" | "lower";
+};
+
+const MonthlySpendingCard = ({
+  total,
+  percentage,
+  direction,
+}: MonthlySpendingCardProps) => {
   const route = useRouter();
 
   const getCurrentMonthYear = () => {
@@ -37,6 +47,8 @@ const MonthlySpendingCard = () => {
       year: "numeric",
     }).format(new Date());
   };
+
+  const isHigher = direction === "higher";
 
   return (
     <View className="bg-kashi-card flex flex-row px-4 py-6 rounded-2xl">
@@ -48,9 +60,11 @@ const MonthlySpendingCard = () => {
           Total Spent
         </Text>
         <Text className="text-kashi-text-primary font-grotesk-bold text-4xl my-4">
-          RM 2,3345.80
+          RM {total.toFixed(2)}
         </Text>
-        <ComparisonBadge isHigher={true} percentage={13.8} />
+        {percentage && (
+          <ComparisonBadge isHigher={isHigher} percentage={percentage} />
+        )}
       </View>
       <View>
         <Pressable
