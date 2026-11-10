@@ -14,6 +14,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen name="unmatched" />
+      <Tabs.Screen name="create" />
       <Tabs.Screen name="patterns" />
     </Tabs>
   );

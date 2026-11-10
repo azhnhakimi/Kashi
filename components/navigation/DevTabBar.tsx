@@ -25,6 +25,12 @@ const TABS: {
     iconActive: "pulse",
   },
   {
+    name: "create",
+    label: "CREATE",
+    icon: "create-outline",
+    iconActive: "create",
+  },
+  {
     name: "patterns",
     label: "PATTERNS",
     icon: "unlink-outline",

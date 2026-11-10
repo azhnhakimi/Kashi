@@ -85,3 +85,13 @@ export function matchNotification(patterns, notification) {
   }
   return null;
 }
+
+const DATE_TOKEN = /\d{1,2}[ -]?[A-Za-z]{3}[ -]?\d{2,4}/;
+const RM_AMOUNT = /(RM\s?)[\d,]+\.\d{2}/i;
+
+export function suggestTemplate(body) {
+  let t = normalize(body).replace(RM_AMOUNT, "$1{amount}");
+  const d = t.match(DATE_TOKEN);
+  if (d) t = t.slice(0, d.index) + "{*}";
+  return t;
+}

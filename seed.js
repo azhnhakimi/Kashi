@@ -74,6 +74,13 @@ const demoNotifications = [
     ago: 3,
     status: "unmatched",
   },
+  {
+    app: "com.cimb.cimbocto",
+    title: "CIMB OCTO MY",
+    body: "Card purchase of RM 7.50 at MOCK BAKERY on 09-Nov-2026, 09:10:00.",
+    ago: 8,
+    status: "unmatched",
+  },
 ];
 
 export async function seedBuiltInPatterns() {
