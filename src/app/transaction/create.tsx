@@ -5,7 +5,7 @@ import TransactionForm from "@/components/transactions/TransactionForm";
 
 const TransactionCreate = () => {
   return (
-    <SafeAreaView className="flex-1 bg-kashi-bg p-4 gap-2" edges={["top"]}>
+    <SafeAreaView className="flex-1 p-4 gap-2" edges={["top", "bottom"]}>
       <NewTransactionHeader />
       <TransactionForm />
     </SafeAreaView>

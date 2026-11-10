@@ -1,4 +1,5 @@
-import "@/lib/nativewind";
+import { CACHE_MAX_AGE, persister, queryClient } from "@/lib/query-client";
+import "@/root-lib/nativewind";
 import {
   SpaceGrotesk_400Regular,
   SpaceGrotesk_500Medium,
@@ -6,6 +7,7 @@ import {
   SpaceGrotesk_700Bold,
   useFonts,
 } from "@expo-google-fonts/space-grotesk";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { NavigationBar } from "expo-navigation-bar";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -33,20 +35,26 @@ export default function RootLayout() {
 
   return (
     <>
-      <Stack
-        screenOptions={{
-          contentStyle: { backgroundColor: "#01010D" },
-          headerShown: false,
-        }}
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister, maxAge: CACHE_MAX_AGE }}
+        onSuccess={() => queryClient.resumePausedMutations()}
       >
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="transaction/create" />
-        <Stack.Screen name="transaction/[id]" />
-        <Stack.Screen name="transaction/[id]/edit" />
-        <Stack.Screen name="(dev)" />
-      </Stack>
-      <StatusBar style="light" />
-      <NavigationBar style="light" />
+        <Stack
+          screenOptions={{
+            contentStyle: { backgroundColor: "#01010D" },
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="transaction/create" />
+          <Stack.Screen name="transaction/[id]" />
+          <Stack.Screen name="transaction/[id]/edit" />
+          <Stack.Screen name="(dev)" />
+        </Stack>
+        <StatusBar style="light" />
+        <NavigationBar style="light" />
+      </PersistQueryClientProvider>
     </>
   );
 }

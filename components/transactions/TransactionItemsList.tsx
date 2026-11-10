@@ -55,10 +55,6 @@ const TransactionItem = ({ item }: TransactionItemProps) => {
           pathname: "/transaction/[id]",
           params: {
             id: item.id,
-            amount: item.amount.toFixed(2),
-            title: item.title,
-            category: item.category,
-            date: item.date,
           },
         })
       }
@@ -106,10 +102,16 @@ const TransactionItem = ({ item }: TransactionItemProps) => {
 
 const TransactionItemsList = ({ data }: TransactionItemsListProps) => {
   return (
-    <View className="gap-2">
-      {data.map((item, idx) => (
-        <TransactionItem item={item} key={item.id} />
-      ))}
+    <View className="gap-2 flex-1">
+      {data.length > 0 ? (
+        data.map((item, idx) => <TransactionItem item={item} key={item.id} />)
+      ) : (
+        <View className="flex-1 p-4 roundex-lg justify-center items-center">
+          <Text className="text-kashi-text-muted font-grotesk-medium italic text-center text-lg">
+            No transactions found {"\n"}for this period...
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

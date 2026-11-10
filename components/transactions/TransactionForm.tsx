@@ -1,13 +1,15 @@
 import { type Category, CATEGORY_META } from "@/constants/category";
 import { colors } from "@/constants/colors";
-import type { Transaction } from "@/mock_data/transactions";
+import { useUpsertTransaction } from "@/hooks/useTransactions";
+import type { Transaction } from "@/types/transaction";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { randomUUID } from "expo-crypto";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
-  FlatList,
   Modal,
   Pressable,
+  ScrollView,
   Text,
   TextInput,
   View,
@@ -55,14 +57,9 @@ const fromCalendarDate = (dateString: string): Date => {
   return new Date(year, month - 1, day);
 };
 
-const hexToRgba = (hex: string, opacity: number) => {
-  const cleanHex = hex.replace("#", "");
-
-  const r = parseInt(cleanHex.substring(0, 2), 16);
-  const g = parseInt(cleanHex.substring(2, 4), 16);
-  const b = parseInt(cleanHex.substring(4, 6), 16);
-
-  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+const parseAmount = (value: string): number => {
+  const n = Number(value.replace(",", ".").trim());
+  return Number.isFinite(n) ? Math.round(n * 100) / 100 : NaN;
 };
 
 const CalendarModal = ({
@@ -230,93 +227,117 @@ const TransactionForm = ({ transaction }: TransactionFormProps) => {
     transaction?.category ?? "food",
   );
 
-  const handleSubmit = () => {
-    const payload = {
-      ...(transaction && { id: transaction.id }),
-      title,
-      amount,
-      date,
-      category,
-    };
+  const [id] = useState(() => transaction?.id ?? randomUUID());
+  const [errors, setErrors] = useState<{ title?: string; amount?: string }>({});
+  const { mutate } = useUpsertTransaction();
 
-    console.log(payload);
+  const handleSubmit = () => {
+    const parsedAmount = parseAmount(amount);
+    const nextErrors: typeof errors = {};
+
+    if (!title.trim()) nextErrors.title = "Please enter a title.";
+    if (!(parsedAmount > 0)) nextErrors.amount = "Enter an amount above 0.";
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
+
+    // Fire and forget: the cache updates instantly, and the write syncs now
+    // or whenever you're back online.
+    mutate({
+      id,
+      title: title.trim(),
+      amount: parsedAmount,
+      category,
+      date: toCalendarDate(date),
+    });
+
     route.replace("/(tabs)/transactions");
   };
 
   return (
     <View className="flex-1 px-4 pt-6 rounded-xl gap-4 justify-start">
-      <View className="gap-2">
-        <Text className="text-kashi-text-primary font-grotesk-medium text-sm">
-          Transaction Title
-        </Text>
-        <TextInput
-          style={{ includeFontPadding: false }}
-          value={title}
-          onChangeText={setTitle}
-          className="bg-kashi-card text-kashi-text-primary px-4 py-0 h-14 rounded-xl font-grotesk text-lg"
-          textAlignVertical="center"
-          placeholder="Enter title..."
-          placeholderTextColor={colors.text.muted}
-        />
-      </View>
-
-      <View className="gap-2">
-        <Text className="text-kashi-text-primary font-grotesk-medium text-sm">
-          Transaction Amount
-        </Text>
-        <View className="flex flex-row justify-between items-center gap-2 bg-kashi-card px-4 py-4 rounded-xl">
-          <Text className="text-kashi-text-secondary font-grotesk-bold text-lg">
-            RM
+      <ScrollView
+        className=""
+        contentContainerClassName="gap-6"
+        showsVerticalScrollIndicator={false}
+      >
+        <View className="gap-2">
+          <Text className="text-kashi-text-primary font-grotesk-medium text-sm">
+            Transaction Title
           </Text>
           <TextInput
             style={{ includeFontPadding: false }}
-            value={amount}
-            onChangeText={setAmount}
-            className="bg-kashi-card text-kashi-text-primary font-grotesk-semibold text-xl flex-1 h-full"
-            keyboardType="numeric"
+            value={title}
+            onChangeText={setTitle}
+            className="bg-kashi-card text-kashi-text-primary px-4 py-0 h-14 rounded-xl font-grotesk text-lg"
             textAlignVertical="center"
+            placeholder="Enter title..."
+            placeholderTextColor={colors.text.muted}
           />
-        </View>
-      </View>
-
-      <View className="gap-2">
-        <Text className="text-kashi-text-primary font-grotesk-medium text-sm">
-          Date
-        </Text>
-        <Pressable
-          className="bg-kashi-card rounded-xl px-4 py-5 flex flex-row justify-start items-center gap-4"
-          onPress={() => setModalVisible(true)}
-        >
-          <Ionicons
-            name="calendar-clear-outline"
-            size={18}
-            className="text-kashi-text-secondary"
-          />
-          <Text className="text-kashi-text-primary font-grotesk-medium">
-            {formatDate(date)}
-          </Text>
-        </Pressable>
-      </View>
-
-      <View className="gap-2">
-        <Text className="text-kashi-text-primary font-grotesk-medium text-sm">
-          Category
-        </Text>
-        <FlatList
-          data={categories}
-          numColumns={2}
-          keyExtractor={(item) => item.category}
-          columnWrapperStyle={{ gap: 10 }}
-          contentContainerStyle={{ gap: 10 }}
-          renderItem={({ item }) => (
-            <CategoryItem
-              item={item}
-              selected={category === item.category}
-              onPress={() => setCategory(item.category)}
-            />
+          {errors.title && (
+            <Text className="text-red-400 font-grotesk text-xs">
+              {errors.title}
+            </Text>
           )}
-        />
-      </View>
+        </View>
+        <View className="gap-2">
+          <Text className="text-kashi-text-primary font-grotesk-medium text-sm">
+            Transaction Amount
+          </Text>
+          <View className="flex flex-row justify-between items-center gap-2 bg-kashi-card px-4 py-4 rounded-xl">
+            <Text className="text-kashi-text-secondary font-grotesk-bold text-lg">
+              RM
+            </Text>
+            <TextInput
+              style={{ includeFontPadding: false }}
+              value={amount}
+              onChangeText={setAmount}
+              className="bg-kashi-card text-kashi-text-primary font-grotesk-semibold text-xl flex-1 h-full"
+              keyboardType="decimal-pad"
+              textAlignVertical="center"
+            />
+          </View>
+          {errors.amount && (
+            <Text className="text-red-400 font-grotesk text-xs">
+              {errors.amount}
+            </Text>
+          )}
+        </View>
+        <View className="gap-2">
+          <Text className="text-kashi-text-primary font-grotesk-medium text-sm">
+            Date
+          </Text>
+          <Pressable
+            className="bg-kashi-card rounded-xl px-4 py-5 flex flex-row justify-start items-center gap-4"
+            onPress={() => setModalVisible(true)}
+          >
+            <Ionicons
+              name="calendar-clear-outline"
+              size={18}
+              className="text-kashi-text-secondary"
+            />
+            <Text className="text-kashi-text-primary font-grotesk-medium">
+              {formatDate(date)}
+            </Text>
+          </Pressable>
+        </View>
+        <View className="gap-2">
+          <Text className="text-kashi-text-primary font-grotesk-medium text-sm">
+            Category
+          </Text>
+          <View className="flex-row flex-wrap gap-2 justify-between">
+            {categories.map((item) => (
+              <View key={item.category} className="w-[48%]">
+                <CategoryItem
+                  item={item}
+                  selected={category === item.category}
+                  onPress={() => setCategory(item.category)}
+                />
+              </View>
+            ))}
+          </View>
+        </View>
+      </ScrollView>
 
       <View className="flex flex-row gap-2 w-full mt-auto">
         <Pressable
