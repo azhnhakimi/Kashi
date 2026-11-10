@@ -27,7 +27,7 @@ async function applyMatch(db, row, result) {
 
 export async function ingestNotification({ app, title, body, postedAt }) {
   if (!BANK_APPS.includes(app)) return null;
-  const db = await getDb();
+  const db = await initDb();
   const res = await db.runAsync(
     "INSERT OR IGNORE INTO notifications (app, title, body, posted_at) VALUES (?, ?, ?, ?)",
     [app, title ?? null, body, postedAt],

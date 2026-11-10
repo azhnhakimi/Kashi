@@ -101,7 +101,14 @@ export default function PatternsContent() {
       <FlatList
         data={patterns}
         keyExtractor={(item) => item.id}
-        ListEmptyComponent={<Text style={styles.empty}>No patterns yet</Text>}
+        ListEmptyComponent={
+          <Text
+            style={styles.empty}
+            className="text-kashi-text-muted font-grotesk"
+          >
+            No patterns yet
+          </Text>
+        }
         renderItem={({ item }) => (
           <View
             style={[styles.card, !item.enabled && styles.disabled]}
@@ -158,7 +165,7 @@ export default function PatternsContent() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   heading: { fontSize: 20, fontWeight: "600", marginBottom: 8 },
-  empty: { marginTop: 24, textAlign: "center", color: "#888" },
+  empty: { marginTop: 24, textAlign: "center" },
   card: {
     padding: 12,
     borderRadius: 8,

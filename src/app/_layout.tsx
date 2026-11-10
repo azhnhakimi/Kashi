@@ -15,11 +15,14 @@ import { StatusBar } from "expo-status-bar";
 import * as SystemUI from "expo-system-ui";
 import { useEffect } from "react";
 import "../../global.css";
+import { useSyncCapturedTransactions } from "../../sync";
 
 SplashScreen.preventAutoHideAsync();
 SystemUI.setBackgroundColorAsync("#01010D");
 
 export default function RootLayout() {
+  useSyncCapturedTransactions();
+
   const [loaded] = useFonts({
     SpaceGrotesk_400Regular,
     SpaceGrotesk_500Medium,

@@ -9,7 +9,6 @@ import {
   View,
 } from "react-native";
 import { getDb, initDb } from "../../db";
-import { resetDemo } from "../../seed";
 
 type Row = {
   id: number;
@@ -64,23 +63,18 @@ export default function UnmatchedContent() {
       <Text style={styles.heading} className="text-kashi-text-primary">
         Unmatched ({rows.length})
       </Text>
-      {__DEV__ && (
-        <Pressable
-          onPress={async () => {
-            await resetDemo();
-            await load();
-          }}
-          className="justify-center items-center p-4 bg-kashi-surface rounded-lg border-2 border-kashi-border"
-        >
-          <Text className="uppercase text-kashi-text-primary font-grotesk-medium">
-            Reset Demo Data
-          </Text>
-        </Pressable>
-      )}
+
       <FlatList
         data={rows}
         keyExtractor={(item) => String(item.id)}
-        ListEmptyComponent={<Text style={styles.empty}>Nothing unmatched</Text>}
+        ListEmptyComponent={
+          <Text
+            style={styles.empty}
+            className="text-kashi-text-muted font-grotesk"
+          >
+            Nothing unmatched
+          </Text>
+        }
         renderItem={({ item }) => (
           <View style={styles.card} className="bg-kashi-card">
             <Text
@@ -136,7 +130,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   heading: { fontSize: 20, fontWeight: "600", marginBottom: 8 },
-  empty: { marginTop: 24, textAlign: "center", color: "#888" },
+  empty: { marginTop: 24, textAlign: "center" },
   card: {
     padding: 12,
     borderRadius: 10,
