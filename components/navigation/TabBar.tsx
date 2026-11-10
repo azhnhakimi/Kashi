@@ -30,6 +30,12 @@ const TABS: {
     icon: "receipt-outline",
     iconActive: "receipt",
   },
+  {
+    name: "settlements",
+    label: "SETTLEMENTS",
+    icon: "cash-outline",
+    iconActive: "cash",
+  },
 ];
 
 export function TabBar({ state, navigateToTab }: TabBarProps) {

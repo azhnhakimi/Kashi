@@ -10,4 +10,6 @@ export const colors = {
     muted: "#6F6D80",
     onAccent: "#32009A",
   },
+  positive: "#4ADE80",
+  negative: "#F87171",
 };

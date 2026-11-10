@@ -54,6 +54,7 @@ export default function RootLayout() {
           <Stack.Screen name="transaction/[id]" />
           <Stack.Screen name="transaction/[id]/edit" />
           <Stack.Screen name="(dev)" />
+          <Stack.Screen name="settlements/template" />
         </Stack>
         <StatusBar style="light" />
         <NavigationBar style="light" />
