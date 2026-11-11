@@ -1,4 +1,4 @@
-import { BANK_APPS, getDb } from "./db";
+import { BANK_APPS, getDb, initDb } from "./db";
 import { matchNotification } from "./matcher";
 
 function loadPatterns(db) {
