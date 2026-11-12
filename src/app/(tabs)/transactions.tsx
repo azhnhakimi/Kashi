@@ -1,6 +1,6 @@
 import { useTransactions } from "@/hooks/useTransactions";
 import { useMemo, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import TransactionsSkeleton from "@/components/skeletons/TransactionsSkeleton";
@@ -13,6 +13,17 @@ import TransactionsHeader from "@/components/transactions/TransactionsHeader";
 const Transactions = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const { data, isPending, isError, refetch } = useTransactions(currentDate);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+
+    try {
+      await refetch();
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const total = useMemo(
     () =>
@@ -46,6 +57,15 @@ const Transactions = () => {
         className="flex-1"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, gap: 24 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#ffffff"
+            colors={["#ffffff"]}
+            progressBackgroundColor="#10101D"
+          />
+        }
       >
         {isPending ? (
           <TransactionsSkeleton />
