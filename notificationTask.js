@@ -3,10 +3,13 @@ import { RNAndroidNotificationListenerHeadlessJsName } from "react-native-androi
 import { ingestNotification } from "./ingest";
 
 const handler = async ({ notification }) => {
+  console.log("[KASHI] raw:", notification);
+  console.log("[KASHI] headless fired", !!notification);
   if (!notification) return;
   try {
     const n = JSON.parse(notification);
     const body = n.bigText || n.text || "";
+    console.log("[KASHI] app:", n.app, "bodyLen:", body.length);
     if (!body) return;
     const time = Number(n.time);
     await ingestNotification({
@@ -15,8 +18,9 @@ const handler = async ({ notification }) => {
       body,
       postedAt: Number.isFinite(time) ? time : Date.now(),
     });
+    console.log("[KASHI] ingest done");
   } catch (e) {
-    console.warn("notification ingest failed", e);
+    console.warn("[KASHI] ingest failed", e);
   }
 };
 

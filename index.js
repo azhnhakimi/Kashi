@@ -1,2 +1,2 @@
-import "expo-router/entry";
 import "./notificationTask";
+import "expo-router/entry";

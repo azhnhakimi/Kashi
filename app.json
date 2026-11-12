@@ -21,7 +21,7 @@
       "package": "com.azhnhakimi.Kashi"
     },
     "web": {
-      "output": "server",
+      "output": "single",
       "favicon": "./assets/images/favicon.png",
       "bundler": "metro"
     },
@@ -42,7 +42,8 @@
         "expo-build-properties",
         {
           "android": {
-            "buildArchs": ["arm64-v8a"]
+            "buildArchs": ["arm64-v8a"],
+      "extraProguardRules": "-keep class com.lesimoes.androidnotificationlistener.** { *; }\n-keepclassmembers class com.lesimoes.androidnotificationlistener.** { *; }\n-keepattributes Signature,*Annotation*"
           }
         }
       ]
