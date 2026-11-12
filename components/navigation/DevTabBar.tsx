@@ -36,6 +36,12 @@ const TABS: {
     icon: "unlink-outline",
     iconActive: "unlink",
   },
+  {
+    name: "mapping",
+    label: "MAPPING",
+    icon: "map-outline",
+    iconActive: "map",
+  },
 ];
 
 export function DevTabBar({ state, navigateToTab }: DevTabBarProps) {

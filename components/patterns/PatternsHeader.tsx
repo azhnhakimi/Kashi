@@ -6,7 +6,7 @@ const PatternsHeader = () => {
   const route = useRouter();
 
   return (
-    <View className="flex flex-row gap-3 items-center mb-4">
+    <View className="flex flex-row gap-3 items-center">
       <Pressable
         className="bg-kashi-accent p-2 rounded-lg"
         onPress={() => route.replace("/(tabs)")}
