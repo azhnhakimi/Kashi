@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { Pressable, Text } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -6,6 +7,8 @@ import Animated, {
 } from "react-native-reanimated";
 
 const CreateMappingBtn = () => {
+  const route = useRouter();
+
   const pressed = useSharedValue(false);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -16,7 +19,9 @@ const CreateMappingBtn = () => {
 
   return (
     <Pressable
-      onPress={() => {}}
+      onPress={() => {
+        route.push("/mapping/create");
+      }}
       onPressIn={() => (pressed.value = true)}
       onPressOut={() => (pressed.value = false)}
       className="mt-auto"
