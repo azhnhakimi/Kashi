@@ -1,4 +1,4 @@
-import { useFocusEffect } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
   Alert,
@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native";
 import { getDb, initDb } from "../../db";
+import SelfTransferToggle from "../myaccount/SelfTransferToggle";
 
 type Pattern = {
   id: string;
@@ -28,6 +29,8 @@ const BANK_NAMES: Record<string, string> = {
 };
 
 export default function PatternsContent() {
+  const router = useRouter();
+
   const [patterns, setPatterns] = useState<Pattern[]>([]);
 
   const load = useCallback(async () => {
@@ -98,7 +101,20 @@ export default function PatternsContent() {
       >
         Patterns ({patterns.length})
       </Text>
+
+      <View className="bg-kashi-card p-2 rounded-xl mb-4">
+        <SelfTransferToggle />
+        <Pressable
+          className="bg-kashi-accent p-3 justify-center items-center rounded-lg mt-2"
+          onPress={() => router.push("/(dev)/myaccount")}
+        >
+          <Text className="text-kashi-text-onAccent font-grotesk-semibold uppercase">
+            my accounts
+          </Text>
+        </Pressable>
+      </View>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={patterns}
         keyExtractor={(item) => item.id}
         ListEmptyComponent={

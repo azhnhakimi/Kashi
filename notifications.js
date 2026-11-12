@@ -53,6 +53,13 @@ export async function notifyCapture(saved) {
         saved.merchant || "Bank transaction",
         "/(tabs)/transactions",
       );
+    } else if (saved.status === "own_transfer") {
+      const amount = (saved.amountSen / 100).toFixed(2);
+      await postNotification(
+        `Self Transfer RM${amount}`,
+        "Notification ignored",
+        "/(dev)/myaccount",
+      );
     } else if (saved.status === "unmatched") {
       await postNotification(
         "Bank Notification Needs Pattern",

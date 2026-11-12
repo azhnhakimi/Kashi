@@ -42,6 +42,12 @@ const TABS: {
     icon: "map-outline",
     iconActive: "map",
   },
+  {
+    name: "myaccount",
+    label: "MY ACCOUNT",
+    icon: "person-outline",
+    iconActive: "person",
+  },
 ];
 
 export function DevTabBar({ state, navigateToTab }: DevTabBarProps) {

@@ -88,6 +88,15 @@ async function runInit() {
       remote_id TEXT,
       synced_at INTEGER
     );
+    CREATE TABLE IF NOT EXISTS my_accounts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      fragment TEXT NOT NULL UNIQUE,
+      created_at INTEGER NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS settings (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL
+    );
   `);
 
   await seedBuiltInPatterns(db);

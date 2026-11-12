@@ -17,6 +17,7 @@ export default function TabLayout() {
       <Tabs.Screen name="create" />
       <Tabs.Screen name="patterns" />
       <Tabs.Screen name="mapping" />
+      <Tabs.Screen name="myaccount" />
     </Tabs>
   );
 }

@@ -1,5 +1,6 @@
 import { BANK_APPS, getDb, initDb } from "./db";
 import { matchNotification } from "./matcher";
+import { isOwnTransfer } from "./ownTransfers";
 
 function loadPatterns(db) {
   return db.getAllAsync(
@@ -8,10 +9,12 @@ function loadPatterns(db) {
 }
 
 async function applyMatch(db, row, result) {
-  if (!result) return false;
+  if (!result) return null;
   const { pattern, amountSen, merchant } = result;
-  const status = pattern.action === "ignore" ? "ignored" : "matched";
-  if (status === "matched" && amountSen == null) return false;
+  let status = pattern.action === "ignore" ? "ignored" : "matched";
+  if (status === "matched" && amountSen == null) return null;
+  if (status === "matched" && (await isOwnTransfer(merchant)))
+    status = "own_transfer";
   await db.runAsync(
     "UPDATE notifications SET status = ?, pattern_id = ? WHERE id = ?",
     [status, pattern.id, row.id],
@@ -22,7 +25,7 @@ async function applyMatch(db, row, result) {
       [row.id, amountSen, merchant, row.posted_at, "auto"],
     );
   }
-  return true;
+  return status;
 }
 
 export async function ingestNotification({ app, title, body, postedAt }) {
@@ -36,12 +39,7 @@ export async function ingestNotification({ app, title, body, postedAt }) {
   const row = { id: res.lastInsertRowId, posted_at: postedAt };
   const patterns = await loadPatterns(db);
   const result = matchNotification(patterns, { app, body });
-  const applied = await applyMatch(db, row, result);
-  const status = !applied
-    ? "unmatched"
-    : result.pattern.action === "ignore"
-      ? "ignored"
-      : "matched";
+  const status = (await applyMatch(db, row, result)) || "unmatched";
   return {
     id: row.id,
     status,
