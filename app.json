@@ -39,11 +39,18 @@
       "expo-font",
       "expo-sqlite",
       [
+        "expo-notifications",
+        {
+          "icon": "./assets/icons/notification-icon.png",
+          "color": "#6331FB"
+        }
+      ],
+      [
         "expo-build-properties",
         {
           "android": {
             "buildArchs": ["arm64-v8a"],
-      "extraProguardRules": "-keep class com.lesimoes.androidnotificationlistener.** { *; }\n-keepclassmembers class com.lesimoes.androidnotificationlistener.** { *; }\n-keepattributes Signature,*Annotation*"
+            "extraProguardRules": "-keep class com.lesimoes.androidnotificationlistener.** { *; }\n-keepclassmembers class com.lesimoes.androidnotificationlistener.** { *; }\n-keepattributes Signature,*Annotation*"
           }
         }
       ]

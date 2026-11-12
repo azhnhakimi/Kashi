@@ -35,8 +35,19 @@ export async function ingestNotification({ app, title, body, postedAt }) {
   if (res.changes === 0) return null;
   const row = { id: res.lastInsertRowId, posted_at: postedAt };
   const patterns = await loadPatterns(db);
-  await applyMatch(db, row, matchNotification(patterns, { app, body }));
-  return row.id;
+  const result = matchNotification(patterns, { app, body });
+  const applied = await applyMatch(db, row, result);
+  const status = !applied
+    ? "unmatched"
+    : result.pattern.action === "ignore"
+      ? "ignored"
+      : "matched";
+  return {
+    id: row.id,
+    status,
+    amountSen: result ? result.amountSen : null,
+    merchant: result ? result.merchant : null,
+  };
 }
 
 export async function reprocessUnmatched() {
