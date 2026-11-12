@@ -14,7 +14,10 @@ const EditTransaction = () => {
   const { data: transaction, isPending, isError } = useTransaction(id);
 
   return (
-    <SafeAreaView className="flex-1 bg-kashi-bg p-4 gap-2" edges={["top"]}>
+    <SafeAreaView
+      className="flex-1 bg-kashi-bg p-4 gap-2"
+      edges={["top", "bottom"]}
+    >
       <EditTransactionHeader />
 
       {isPending ? (

@@ -1,4 +1,5 @@
 import { useDeleteTransaction, useTransaction } from "@/hooks/useTransactions";
+import { toast } from "@/lib/toast";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
@@ -73,6 +74,7 @@ const TransactionDetails = () => {
 
   const handleDelete = () => {
     router.replace("/(tabs)/transactions");
+    toast.success("Transaction deleted.", "Transaction deleted successfully.");
     setDeleteModalVisible(false);
     remove(id);
   };

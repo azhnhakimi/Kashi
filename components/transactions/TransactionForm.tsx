@@ -257,10 +257,16 @@ const TransactionForm = ({ transaction }: TransactionFormProps) => {
     });
 
     route.replace("/(tabs)/transactions");
-    toast.success(
-      "Transaction created.",
-      "New transaction created successfully.",
-    );
+
+    !isEdit
+      ? toast.success(
+          "Transaction created.",
+          "New transaction created successfully.",
+        )
+      : toast.success(
+          "Transaction Updated.",
+          "Transaction updated successfully.",
+        );
   };
 
   return (

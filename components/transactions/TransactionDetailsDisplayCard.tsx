@@ -19,6 +19,11 @@ const hexToRgba = (hex: string, opacity: number) => {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
 
+const parseAmount = (value: string): number => {
+  const n = Number(value.replace(",", ".").trim());
+  return Number.isFinite(n) ? Math.round(n * 100) / 100 : NaN;
+};
+
 const TransactionDetailsDisplayCard = ({ category, title, amount }: Props) => {
   const meta = CATEGORY_META[category];
 
@@ -40,7 +45,7 @@ const TransactionDetailsDisplayCard = ({ category, title, amount }: Props) => {
         {title}
       </Text>
       <Text className="text-kashi-text-primary text-3xl font-grotesk-bold">
-        RM {amount}
+        RM {parseAmount(amount).toFixed(2)}
       </Text>
     </View>
   );
