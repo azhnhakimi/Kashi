@@ -36,10 +36,10 @@ export async function ensureNotificationPermission() {
   return next.granted;
 }
 
-export async function postNotification(title, body) {
+export async function postNotification(title, body, url) {
   await ensureChannel();
   await Notifications.scheduleNotificationAsync({
-    content: { title, body },
+    content: { title, body, data: url ? { url } : {} },
     trigger: { channelId: CHANNEL_ID },
   });
 }
@@ -51,11 +51,13 @@ export async function notifyCapture(saved) {
       await postNotification(
         `Captured RM${amount}`,
         saved.merchant || "Bank transaction",
+        "/(tabs)/transactions",
       );
     } else if (saved.status === "unmatched") {
       await postNotification(
         "Bank Notification Needs Pattern",
         "Open Kashi to review it in Unmatched",
+        "/(dev)/unmatched",
       );
     }
   } catch (e) {
