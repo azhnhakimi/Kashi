@@ -4,6 +4,8 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import SettlementForm from "@/components/settlements/SettlementForm";
+
 type HeaderProps = {
   mode: string;
   source: string;
@@ -38,8 +40,9 @@ const SettlementTemplate = () => {
   }>();
 
   return (
-    <SafeAreaView className="flex-1 bg-kashi-bg p-4 gap-2" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-kashi-bg p-4" edges={["top", "bottom"]}>
       <Header mode={mode} source={source}></Header>
+      <SettlementForm source={source} />
     </SafeAreaView>
   );
 };
