@@ -5,6 +5,9 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import Animated, {
+  FadeIn,
+  FadeOut,
+  LinearTransition,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -49,62 +52,71 @@ const TransactionItem = ({ item }: TransactionItemProps) => {
   }));
 
   return (
-    <Pressable
-      onPress={() =>
-        router.push({
-          pathname: "/transaction/[id]",
-          params: {
-            id: item.id,
-          },
-        })
-      }
-      onPressIn={() => (pressed.value = true)}
-      onPressOut={() => (pressed.value = false)}
+    <Animated.View
+      entering={FadeIn.duration(250)}
+      exiting={FadeOut.duration(200)}
+      layout={LinearTransition.duration(300)}
     >
-      <Animated.View
-        style={animatedStyle}
-        className="bg-kashi-card p-4 rounded-xl flex flex-row gap-4 items-center"
+      <Pressable
+        onPress={() =>
+          router.push({
+            pathname: "/transaction/[id]",
+            params: {
+              id: item.id,
+            },
+          })
+        }
+        onPressIn={() => (pressed.value = true)}
+        onPressOut={() => (pressed.value = false)}
       >
-        <View
-          className="p-3 rounded-lg flex justify-center items-center aspect-square self-center"
-          style={{ backgroundColor: hexToRgba(meta.color, 0.1) }}
+        <Animated.View
+          style={animatedStyle}
+          className="bg-kashi-card p-4 rounded-xl flex flex-row gap-4 items-center"
         >
-          <Ionicons name={meta.icon} size={24} color={meta.color} />
-        </View>
-        <View className="flex-1">
-          <Text
-            className="text-kashi-text-primary font-grotesk-semibold"
-            numberOfLines={1}
+          <View
+            className="p-3 rounded-lg flex justify-center items-center aspect-square self-center"
+            style={{ backgroundColor: hexToRgba(meta.color, 0.1) }}
           >
-            {item.title}
-          </Text>
-          <View className="flex flex-row justify-start items-center">
-            <Text className="text-kashi-text-secondary">
-              {item.category.charAt(0).toUpperCase() + item.category.slice(1)}
+            <Ionicons name={meta.icon} size={24} color={meta.color} />
+          </View>
+          <View className="flex-1">
+            <Text
+              className="text-kashi-text-primary font-grotesk-semibold"
+              numberOfLines={1}
+            >
+              {item.title}
             </Text>
-            <Entypo
-              name="dot-single"
-              size={20}
-              className="text-kashi-text-secondary"
-            />
-            <Text className="text-kashi-text-muted">
-              {formatDate(item.date)}
+            <View className="flex flex-row justify-start items-center">
+              <Text className="text-kashi-text-secondary">
+                {item.category.charAt(0).toUpperCase() + item.category.slice(1)}
+              </Text>
+              <Entypo
+                name="dot-single"
+                size={20}
+                className="text-kashi-text-secondary"
+              />
+              <Text className="text-kashi-text-muted">
+                {formatDate(item.date)}
+              </Text>
+            </View>
+            <Text className="text-kashi-text-primary font-grotesk-bold">
+              RM {item.amount.toFixed(2)}
             </Text>
           </View>
-          <Text className="text-kashi-text-primary font-grotesk-bold">
-            RM {item.amount.toFixed(2)}
-          </Text>
-        </View>
-      </Animated.View>
-    </Pressable>
+        </Animated.View>
+      </Pressable>
+    </Animated.View>
   );
 };
 
 const TransactionItemsList = ({ data }: TransactionItemsListProps) => {
   return (
-    <View className="gap-2 flex-1">
+    <Animated.View
+      layout={LinearTransition.duration(300)}
+      className="gap-2 flex-1"
+    >
       {data.length > 0 ? (
-        data.map((item, idx) => <TransactionItem item={item} key={item.id} />)
+        data.map((item) => <TransactionItem item={item} key={item.id} />)
       ) : (
         <View className="flex-1 p-4 roundex-lg justify-center items-center">
           <Text className="text-kashi-text-muted font-grotesk-medium italic text-center text-lg">
@@ -112,7 +124,7 @@ const TransactionItemsList = ({ data }: TransactionItemsListProps) => {
           </Text>
         </View>
       )}
-    </View>
+    </Animated.View>
   );
 };
 

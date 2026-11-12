@@ -62,6 +62,7 @@ const Transactions = () => {
           <TransactionItemsList data={data ?? []} />
         )}
       </ScrollView>
+
       <AddTransactionBtn />
     </SafeAreaView>
   );

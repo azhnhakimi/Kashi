@@ -14,6 +14,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import * as SystemUI from "expo-system-ui";
 import { useEffect } from "react";
+import { StatusBar as RNStatusBar } from "react-native";
+import FlashMessage from "react-native-flash-message";
 import "../../global.css";
 import { useSyncCapturedTransactions } from "../../sync";
 
@@ -35,6 +37,8 @@ export default function RootLayout() {
   }, [loaded]);
 
   if (!loaded) return null;
+
+  const statusBarHeight = RNStatusBar.currentHeight ?? 0;
 
   return (
     <>
@@ -58,6 +62,18 @@ export default function RootLayout() {
         </Stack>
         <StatusBar style="light" />
         <NavigationBar style="light" />
+        <FlashMessage
+          position="top"
+          statusBarHeight={statusBarHeight}
+          textStyle={{
+            fontFamily: "SpaceGrotesk_400Regular",
+            letterSpacing: -0.6,
+          }}
+          titleStyle={{
+            fontFamily: "SpaceGrotesk_700Bold",
+            letterSpacing: -0.6,
+          }}
+        />
       </PersistQueryClientProvider>
     </>
   );

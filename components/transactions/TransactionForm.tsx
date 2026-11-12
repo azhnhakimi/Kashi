@@ -1,6 +1,7 @@
 import { type Category, CATEGORY_META } from "@/constants/category";
 import { colors } from "@/constants/colors";
 import { useUpsertTransaction } from "@/hooks/useTransactions";
+import { toast } from "@/lib/toast";
 import type { Transaction } from "@/types/transaction";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { randomUUID } from "expo-crypto";
@@ -239,7 +240,11 @@ const TransactionForm = ({ transaction }: TransactionFormProps) => {
     if (!(parsedAmount > 0)) nextErrors.amount = "Enter an amount above 0.";
 
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) return;
+
+    if (Object.keys(nextErrors).length > 0) {
+      toast.error("Validation failed", Object.values(nextErrors)[0]);
+      return;
+    }
 
     // Fire and forget: the cache updates instantly, and the write syncs now
     // or whenever you're back online.
@@ -252,6 +257,10 @@ const TransactionForm = ({ transaction }: TransactionFormProps) => {
     });
 
     route.replace("/(tabs)/transactions");
+    toast.success(
+      "Transaction created.",
+      "New transaction created successfully.",
+    );
   };
 
   return (
