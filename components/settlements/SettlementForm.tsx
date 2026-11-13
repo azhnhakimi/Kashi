@@ -1,9 +1,15 @@
 import { colors } from "@/constants/colors";
-import type { SettlementRecord } from "@/types/settlements";
+import {
+  createSettlement,
+  deleteSettlement,
+  updateSettlement,
+} from "@/lib/settlements";
+import type { SettlementRecord, SettlementSource } from "@/types/settlements";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
+  Alert,
   Modal,
   Pressable,
   ScrollView,
@@ -148,7 +154,7 @@ const CalendarModal = ({
 };
 
 type SettlementFormProps = {
-  source: string;
+  source: SettlementSource;
   settlement?: SettlementRecord;
 };
 
@@ -181,7 +187,88 @@ const SettlementForm = ({ source, settlement }: SettlementFormProps) => {
     settlement ? fromCalendarDate(settlement.date) : new Date(),
   );
 
-  const handleSubmit = () => {};
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    const parsedAmount = parseAmount(amount);
+
+    if (!title.trim() || !name.trim()) {
+      Alert.alert("Missing information", "Please fill in the event and name.");
+      return;
+    }
+
+    if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
+      Alert.alert(
+        "Invalid amount",
+        "Please enter a valid amount greater than zero.",
+      );
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const record = {
+        source,
+        title: title.trim(),
+        name: name.trim(),
+        amount: parsedAmount,
+        date: toCalendarDate(date),
+      };
+
+      if (isEdit && settlement) {
+        await updateSettlement(settlement.id, record);
+      } else {
+        await createSettlement(record);
+      }
+
+      route.back();
+    } catch (error) {
+      Alert.alert(
+        isEdit ? "Unable to update settlement" : "Unable to create settlement",
+        error instanceof Error ? error.message : "Something went wrong.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = () => {
+    if (!settlement) return;
+
+    Alert.alert(
+      "Delete settlement",
+      "Are you sure you want to delete this record? This action cannot be undone.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              setIsSubmitting(true);
+
+              await deleteSettlement(settlement.id);
+
+              route.back();
+            } catch (error) {
+              Alert.alert(
+                "Unable to delete settlement",
+                error instanceof Error
+                  ? error.message
+                  : "Something went wrong.",
+              );
+            } finally {
+              setIsSubmitting(false);
+            }
+          },
+        },
+      ],
+    );
+  };
 
   return (
     <View className="flex-1 px-4 pt-6 rounded-xl gap-4 justify-start bg-kashi-bg">
@@ -274,6 +361,16 @@ const SettlementForm = ({ source, settlement }: SettlementFormProps) => {
       </ScrollView>
 
       <View className="flex flex-row gap-2 w-full mt-auto">
+        {isEdit && (
+          <Pressable
+            disabled={isSubmitting}
+            onPress={handleDelete}
+            className="bg-red-900/30 flex-1 basis-0 p-3 rounded-lg justify-center items-center"
+          >
+            <Ionicons name="trash-outline" size={20} color="#EF4444" />
+          </Pressable>
+        )}
+
         <Pressable
           className="flex-[2] basis-0"
           onPress={() => route.back()}
@@ -285,12 +382,14 @@ const SettlementForm = ({ source, settlement }: SettlementFormProps) => {
             className="p-3 rounded-lg flex justify-center items-center"
           >
             <Text className="text-kashi-text-secondary font-grotesk-medium">
-              Discard
+              Cancel
             </Text>
           </Animated.View>
         </Pressable>
+
         <Pressable
-          onPress={() => handleSubmit()}
+          disabled={isSubmitting}
+          onPress={handleSubmit}
           onPressIn={() => (createPressed.value = true)}
           onPressOut={() => (createPressed.value = false)}
           className="flex-[3] basis-0"
@@ -300,7 +399,13 @@ const SettlementForm = ({ source, settlement }: SettlementFormProps) => {
             className="p-3 rounded-lg flex justify-center items-center"
           >
             <Text className="text-kashi-text-onAccent font-grotesk-bold">
-              {isEdit ? "Save" : "Create"}
+              {isSubmitting
+                ? isEdit
+                  ? "Saving..."
+                  : "Creating..."
+                : isEdit
+                  ? "Save"
+                  : "Create"}
             </Text>
           </Animated.View>
         </Pressable>

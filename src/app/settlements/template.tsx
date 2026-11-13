@@ -1,15 +1,11 @@
-import type { mode } from "@/components/settlements/CreateRecordBtn";
+import SettlementForm from "@/components/settlements/SettlementForm";
+import { fetchSettlement } from "@/lib/settlements";
+import type { SettlementRecord, SettlementSource } from "@/types/settlements";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Pressable, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import {
-  incomingRecords,
-  outgoingRecords,
-} from "@/mock_data/settlement_records";
-
-import SettlementForm from "@/components/settlements/SettlementForm";
 
 type HeaderProps = {
   mode: string;
@@ -41,19 +37,64 @@ const Header = ({ mode, source }: HeaderProps) => {
 const SettlementTemplate = () => {
   const { mode, source, id } = useLocalSearchParams<{
     mode: string;
-    source: mode;
+    source: SettlementSource;
     id: string;
   }>();
 
-  const record =
-    source === "incoming"
-      ? incomingRecords.find((item) => item.id === id)
-      : outgoingRecords.find((item) => item.id === id);
+  const [record, setRecord] = useState<SettlementRecord>();
+  const [loading, setLoading] = useState(mode === "Edit");
+  const [error, setError] = useState<string | null>(null);
+
+  const isEdit = mode === "Edit";
+
+  useEffect(() => {
+    if (!isEdit) return;
+
+    let isMounted = true;
+
+    const loadSettlement = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const data = await fetchSettlement(id);
+
+        if (isMounted) setRecord(data);
+      } catch (err) {
+        if (isMounted) {
+          setError(
+            err instanceof Error ? err.message : "Failed to load settlement.",
+          );
+        }
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    void loadSettlement();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id, isEdit]);
 
   return (
     <SafeAreaView className="flex-1 bg-kashi-bg p-4" edges={["top", "bottom"]}>
       <Header mode={mode} source={source} />
-      <SettlementForm source={source} settlement={record} />
+
+      {loading ? (
+        <View className="flex-1 justify-center items-center">
+          <ActivityIndicator />
+        </View>
+      ) : error ? (
+        <View className="flex-1 justify-center items-center">
+          <Text className="text-kashi-text-secondary font-grotesk text-center">
+            {error}
+          </Text>
+        </View>
+      ) : (
+        <SettlementForm source={record?.source ?? source} settlement={record} />
+      )}
     </SafeAreaView>
   );
 };
