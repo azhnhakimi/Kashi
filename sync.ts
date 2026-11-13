@@ -4,6 +4,11 @@ import { randomUUID } from "expo-crypto";
 import { useEffect } from "react";
 import { AppState } from "react-native";
 import { getDb, initDb } from "./db";
+import { CATEGORY_META, type Category } from '@/constants/category';
+import { categoryFor, listMerchantCategories } from './merchantCategories';
+
+const toCategory = (value: string): Category =>
+  value in CATEGORY_META ? (value as Category) : 'miscellaneous';
 
 type Pending = {
   id: number;
@@ -49,6 +54,7 @@ async function run(): Promise<number> {
   )) as Pending[];
 
   let sent = 0;
+  const entries = await listMerchantCategories();
   for (const row of rows) {
     const remoteId = row.remote_id ?? randomUUID();
     if (!row.remote_id) {
@@ -62,7 +68,7 @@ async function run(): Promise<number> {
         id: remoteId,
         title: row.merchant || BANK_NAMES[row.app] || "Bank transaction",
         amount: row.amount_sen / 100,
-        category: "miscellaneous",
+        category: toCategory(categoryFor(row.merchant, entries)),
         date: toLocalDate(row.occurred_at),
       });
     } catch (e) {

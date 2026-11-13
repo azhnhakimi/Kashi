@@ -161,10 +161,10 @@ export default function MyAccountsScreen() {
               {f.fragment}
             </Text>
             <Pressable
-              className="bg-kashi-accent justify-center items-center py-2 px-6 rounded-lg"
+              className="bg-kashi-negative/10 justify-center items-center py-2 px-6 rounded-lg"
               onPress={() => remove(f.id)}
             >
-              <Text className="text-kashi-text-primary font-grotesk-bold uppercase">
+              <Text className="text-kashi-negative font-grotesk-bold uppercase">
                 Remove
               </Text>
             </Pressable>

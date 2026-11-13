@@ -8,6 +8,7 @@ import { randomUUID } from "expo-crypto";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
+  Alert,
   Modal,
   Pressable,
   ScrollView,
@@ -23,6 +24,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { addMerchantCategory } from "../../merchantCategories";
+import { isValidFragment } from "../../ownTransfers";
 
 const categories = Object.entries(CATEGORY_META).map(([category, meta]) => ({
   category: category as Category,
@@ -255,6 +258,25 @@ const TransactionForm = ({ transaction }: TransactionFormProps) => {
       category,
       date: toCalendarDate(date),
     });
+
+    if (
+      transaction &&
+      transaction.category === "miscellaneous" &&
+      category !== "miscellaneous" &&
+      isValidFragment(transaction.title)
+    ) {
+      Alert.alert(
+        "Remember this merchant?",
+        `Always categorise "${transaction.title}" as ${CATEGORY_META[category].label}?`,
+        [
+          { text: "No", style: "cancel" },
+          {
+            text: "Yes",
+            onPress: () => addMerchantCategory(transaction.title, category),
+          },
+        ],
+      );
+    }
 
     route.replace("/(tabs)/transactions");
 

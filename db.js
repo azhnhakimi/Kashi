@@ -97,6 +97,12 @@ async function runInit() {
       key TEXT PRIMARY KEY,
       value TEXT NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS merchant_categories (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      fragment TEXT NOT NULL UNIQUE,
+      category TEXT NOT NULL,
+      created_at INTEGER NOT NULL
+    );
   `);
 
   await seedBuiltInPatterns(db);

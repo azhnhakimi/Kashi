@@ -35,6 +35,7 @@ export async function ingestNotification({ app, title, body, postedAt }) {
     "INSERT OR IGNORE INTO notifications (app, title, body, posted_at) VALUES (?, ?, ?, ?)",
     [app, title ?? null, body, postedAt],
   );
+  console.log(res);
   if (res.changes === 0) return null;
   const row = { id: res.lastInsertRowId, posted_at: postedAt };
   const patterns = await loadPatterns(db);

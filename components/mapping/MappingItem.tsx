@@ -1,11 +1,12 @@
-import { CATEGORY_META } from "@/constants/category";
-import type { Mapping } from "@/types/mapping";
+import { Category, CATEGORY_META } from "@/constants/category";
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Pressable, Text, View } from "react-native";
 
 type MappingItemProps = {
-  item: Mapping;
+  fragment: string;
+  category: Category;
+  onPress: () => void;
 };
 
 const hexToRgba = (hex: string, opacity: number) => {
@@ -18,18 +19,18 @@ const hexToRgba = (hex: string, opacity: number) => {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
 
-const MappingItem = ({ item }: MappingItemProps) => {
-  const meta = CATEGORY_META[item.category];
+const MappingItem = ({ fragment, category, onPress }: MappingItemProps) => {
+  const meta = CATEGORY_META[category];
 
   return (
-    <View className="bg-kashi-card p-4 rounded-lg flex flex-row">
+    <View className="bg-kashi-card px-4 py-6 rounded-lg flex flex-row">
       <View className="gap-4 flex-1">
         <View>
           <Text className="text-kashi-text-muted font-grotesk-semibold uppercase text-xs">
             merchant name
           </Text>
           <Text className="text-kashi-text-primary font-grotesk-medium text-lg">
-            {item.merchant}
+            {fragment}
           </Text>
         </View>
         <View>
@@ -52,24 +53,16 @@ const MappingItem = ({ item }: MappingItemProps) => {
               className="capitalize font-grotesk-medium"
               style={{ color: meta.color }}
             >
-              {item.category}
+              {meta.label}
             </Text>
           </View>
         </View>
       </View>
-      <View className="justify-around">
-        <Pressable
-          className="p-3 rounded-lg"
-          style={{ backgroundColor: hexToRgba("#2563EB", 0.1) }}
-          onPress={() => {}}
-        >
-          <AntDesign name="edit" size={22} color="#2563EB" />
-        </Pressable>
-
+      <View className="justify-center">
         <Pressable
           className="p-3 rounded-lg"
           style={{ backgroundColor: hexToRgba("#DC2127", 0.1) }}
-          onPress={() => {}}
+          onPress={onPress}
         >
           <AntDesign name="delete" size={22} color="#DC2127" />
         </Pressable>
