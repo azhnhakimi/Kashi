@@ -1,4 +1,5 @@
 import { colors } from "@/constants/colors";
+import type { SettlementRecord } from "@/types/settlements";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -37,6 +38,12 @@ const toCalendarDate = (date: Date): string => {
 const parseAmount = (value: string): number => {
   const n = Number(value.replace(",", ".").trim());
   return Number.isFinite(n) ? Math.round(n * 100) / 100 : NaN;
+};
+
+const fromCalendarDate = (dateString: string): Date => {
+  const [year, month, day] = dateString.split("-").map(Number);
+
+  return new Date(year, month - 1, day);
 };
 
 type CalendarModalProps = {
@@ -142,10 +149,12 @@ const CalendarModal = ({
 
 type SettlementFormProps = {
   source: string;
+  settlement?: SettlementRecord;
 };
 
-const SettlementForm = ({ source }: SettlementFormProps) => {
+const SettlementForm = ({ source, settlement }: SettlementFormProps) => {
   const route = useRouter();
+  const isEdit = !!settlement;
 
   const createPressed = useSharedValue(false);
   const createAnimatedStyle = useAnimatedStyle(() => ({
@@ -163,10 +172,14 @@ const SettlementForm = ({ source }: SettlementFormProps) => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [title, setTitle] = useState("");
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [title, setTitle] = useState(settlement?.title ?? "");
+  const [name, setName] = useState(settlement?.name ?? "");
+  const [amount, setAmount] = useState(
+    settlement ? String(settlement.amount) : "",
+  );
+  const [date, setDate] = useState(
+    settlement ? fromCalendarDate(settlement.date) : new Date(),
+  );
 
   const handleSubmit = () => {};
 
@@ -179,7 +192,7 @@ const SettlementForm = ({ source }: SettlementFormProps) => {
       >
         <View className="gap-2">
           <Text className="text-kashi-text-primary font-grotesk-medium text-sm">
-            Title
+            Event
           </Text>
           <TextInput
             style={{ includeFontPadding: false }}
@@ -287,7 +300,7 @@ const SettlementForm = ({ source }: SettlementFormProps) => {
             className="p-3 rounded-lg flex justify-center items-center"
           >
             <Text className="text-kashi-text-onAccent font-grotesk-bold">
-              Create
+              {isEdit ? "Save" : "Create"}
             </Text>
           </Animated.View>
         </Pressable>

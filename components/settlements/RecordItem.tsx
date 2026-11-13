@@ -25,7 +25,7 @@ const RecordItem = ({
       onPress={() => {
         router.push({
           pathname: "/settlements/template",
-          params: { mode: "Edit", source: mode },
+          params: { mode: "Edit", source: mode, id: record.id },
         });
       }}
     >

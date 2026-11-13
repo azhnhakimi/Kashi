@@ -4,6 +4,11 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import {
+  incomingRecords,
+  outgoingRecords,
+} from "@/mock_data/settlement_records";
+
 import SettlementForm from "@/components/settlements/SettlementForm";
 
 type HeaderProps = {
@@ -34,15 +39,21 @@ const Header = ({ mode, source }: HeaderProps) => {
 };
 
 const SettlementTemplate = () => {
-  const { mode, source } = useLocalSearchParams<{
+  const { mode, source, id } = useLocalSearchParams<{
     mode: string;
     source: mode;
+    id: string;
   }>();
+
+  const record =
+    source === "incoming"
+      ? incomingRecords.find((item) => item.id === id)
+      : outgoingRecords.find((item) => item.id === id);
 
   return (
     <SafeAreaView className="flex-1 bg-kashi-bg p-4" edges={["top", "bottom"]}>
-      <Header mode={mode} source={source}></Header>
-      <SettlementForm source={source} />
+      <Header mode={mode} source={source} />
+      <SettlementForm source={source} settlement={record} />
     </SafeAreaView>
   );
 };
