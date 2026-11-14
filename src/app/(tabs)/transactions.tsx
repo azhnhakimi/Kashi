@@ -1,7 +1,6 @@
 import { useTransactions } from "@/hooks/useTransactions";
 import { useMemo, useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import TransactionsSkeleton from "@/components/skeletons/TransactionsSkeleton";
 import AddTransactionBtn from "@/components/transactions/AddTransactionBtn";
@@ -9,6 +8,7 @@ import MonthlyNavigator from "@/components/transactions/MonthlyNavigator";
 import TotalSpentCard from "@/components/transactions/TotalSpentCard";
 import TransactionItemsList from "@/components/transactions/TransactionItemsList";
 import TransactionsHeader from "@/components/transactions/TransactionsHeader";
+import { Screen } from "@/components/ui/Screen";
 
 const Transactions = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -43,7 +43,7 @@ const Transactions = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-kashi-bg p-4 gap-2" edges={["top"]}>
+    <Screen>
       <TransactionsHeader />
       <MonthlyNavigator
         date={currentDate}
@@ -84,7 +84,7 @@ const Transactions = () => {
       </ScrollView>
 
       <AddTransactionBtn />
-    </SafeAreaView>
+    </Screen>
   );
 };
 

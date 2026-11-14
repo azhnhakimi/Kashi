@@ -9,7 +9,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { getDb, initDb } from "../../../db";
 import {
   addMerchantCategory,
@@ -21,6 +20,7 @@ import { MIN_FRAGMENT_LENGTH, isValidFragment } from "../../../ownTransfers";
 
 import MappingHeader from "@/components/mapping/MappingHeader";
 import MappingItem from "@/components/mapping/MappingItem";
+import { Screen } from "@/components/ui/Screen";
 
 type Entry = { id: number; fragment: string; category: string };
 
@@ -87,7 +87,7 @@ const Mapping = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-kashi-bg p-4" edges={["top"]}>
+    <Screen>
       <MappingHeader />
       <ScrollView
         className="flex-1"
@@ -186,7 +186,7 @@ const Mapping = () => {
           />
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </Screen>
   );
 };
 

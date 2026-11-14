@@ -5,7 +5,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+
+import { Screen } from "@/components/ui/Screen";
 
 type HeaderProps = {
   mode: string;
@@ -79,7 +80,7 @@ const SettlementTemplate = () => {
   }, [id, isEdit]);
 
   return (
-    <SafeAreaView className="flex-1 bg-kashi-bg p-4" edges={["top", "bottom"]}>
+    <Screen edges={["top", "bottom"]}>
       <Header mode={mode} source={source} />
 
       {loading ? (
@@ -95,7 +96,7 @@ const SettlementTemplate = () => {
       ) : (
         <SettlementForm source={record?.source ?? source} settlement={record} />
       )}
-    </SafeAreaView>
+    </Screen>
   );
 };
 

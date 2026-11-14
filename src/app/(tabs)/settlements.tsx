@@ -6,18 +6,18 @@ import Animated, {
   SlideOutLeft,
   SlideOutRight,
 } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import IncomingContent from "@/components/settlements/IncomingContent";
 import OutgoingContent from "@/components/settlements/OutgoingContent";
 import SettlementsHeader from "@/components/settlements/SettlementsHeader";
 import TopBar from "@/components/settlements/TopBar";
+import { Screen } from "@/components/ui/Screen";
 
 const Settlements = () => {
   const [content, setContent] = useState<TobBarSelection>("incoming");
 
   return (
-    <SafeAreaView className="flex-1 bg-kashi-bg p-4 gap-4" edges={["top"]}>
+    <Screen className="gap-4">
       <SettlementsHeader />
       <TopBar content={content} setContent={setContent} />
       <Animated.View
@@ -36,7 +36,7 @@ const Settlements = () => {
       >
         {content === "incoming" ? <IncomingContent /> : <OutgoingContent />}
       </Animated.View>
-    </SafeAreaView>
+    </Screen>
   );
 };
 

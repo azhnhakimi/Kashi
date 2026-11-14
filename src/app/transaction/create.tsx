@@ -1,14 +1,13 @@
-import { SafeAreaView } from "react-native-safe-area-context";
-
 import NewTransactionHeader from "@/components/transactions/NewTransactionHeader";
 import TransactionForm from "@/components/transactions/TransactionForm";
+import { Screen } from "@/components/ui/Screen";
 
 const TransactionCreate = () => {
   return (
-    <SafeAreaView className="flex-1 p-4 gap-2" edges={["top", "bottom"]}>
+    <Screen className="gap-2" edges={["top", "bottom"]}>
       <NewTransactionHeader />
       <TransactionForm />
-    </SafeAreaView>
+    </Screen>
   );
 };
 

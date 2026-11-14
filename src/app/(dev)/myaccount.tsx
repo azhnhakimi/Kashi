@@ -9,7 +9,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { getDb, initDb } from "../../../db";
 import {
   MIN_FRAGMENT_LENGTH,
@@ -21,6 +20,7 @@ import {
 
 import MyAccountHeader from "@/components/myaccount/MyAccountHeader";
 import SelfTransferToggle from "@/components/myaccount/SelfTransferToggle";
+import { Screen } from "@/components/ui/Screen";
 
 type Fragment = { id: number; fragment: string };
 type Suggestion = { merchant: string };
@@ -76,7 +76,7 @@ export default function MyAccountsScreen() {
   const fresh = suggestions.filter((s) => !known.has(s.merchant));
 
   return (
-    <SafeAreaView className="flex-1 bg-kashi-bg p-4" edges={["top"]}>
+    <Screen>
       <MyAccountHeader />
       <ScrollView className="" showsVerticalScrollIndicator={false}>
         <SelfTransferToggle />
@@ -198,7 +198,7 @@ export default function MyAccountsScreen() {
           </View>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </Screen>
   );
 }
 

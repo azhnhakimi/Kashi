@@ -18,6 +18,7 @@ import * as SystemUI from "expo-system-ui";
 import { useEffect } from "react";
 import { StatusBar as RNStatusBar } from "react-native";
 import FlashMessage from "react-native-flash-message";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../../global.css";
 import { useSyncCapturedTransactions } from "../../sync";
 
@@ -73,34 +74,36 @@ export default function RootLayout() {
         onSuccess={() => queryClient.resumePausedMutations()}
       >
         <SkeletonProvider>
-          <Stack
-            screenOptions={{
-              contentStyle: { backgroundColor: "#01010D" },
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="transaction/create" />
-            <Stack.Screen name="transaction/[id]" />
-            <Stack.Screen name="transaction/[id]/edit" />
-            <Stack.Screen name="(dev)" />
-            <Stack.Screen name="settlements/template" />
-            <Stack.Screen name="mapping/create" />
-          </Stack>
-          <StatusBar style="light" />
-          <NavigationBar style="light" />
-          <FlashMessage
-            position="top"
-            statusBarHeight={statusBarHeight}
-            textStyle={{
-              fontFamily: "SpaceGrotesk_400Regular",
-              letterSpacing: -0.6,
-            }}
-            titleStyle={{
-              fontFamily: "SpaceGrotesk_700Bold",
-              letterSpacing: -0.6,
-            }}
-          />
+          <SafeAreaProvider>
+            <Stack
+              screenOptions={{
+                contentStyle: { backgroundColor: "#01010D" },
+                headerShown: false,
+              }}
+            >
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="transaction/create" />
+              <Stack.Screen name="transaction/[id]" />
+              <Stack.Screen name="transaction/[id]/edit" />
+              <Stack.Screen name="(dev)" />
+              <Stack.Screen name="settlements/template" />
+              <Stack.Screen name="mapping/create" />
+            </Stack>
+            <StatusBar style="light" />
+            <NavigationBar style="light" />
+            <FlashMessage
+              position="top"
+              statusBarHeight={statusBarHeight}
+              textStyle={{
+                fontFamily: "SpaceGrotesk_400Regular",
+                letterSpacing: -0.6,
+              }}
+              titleStyle={{
+                fontFamily: "SpaceGrotesk_700Bold",
+                letterSpacing: -0.6,
+              }}
+            />
+          </SafeAreaProvider>
         </SkeletonProvider>
       </PersistQueryClientProvider>
     </>

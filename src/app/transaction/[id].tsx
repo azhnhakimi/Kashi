@@ -3,7 +3,6 @@ import { toast } from "@/lib/toast";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import TransactionDetailsSkeleton from "@/components/skeletons/TransactionDetailsSkeleton";
 import DeleteTransactionBtn from "@/components/transactions/DeleteTransactionBtn";
@@ -11,6 +10,7 @@ import EditTransactionBtn from "@/components/transactions/EditTransactionBtn";
 import TransactionDetailsDisplayCard from "@/components/transactions/TransactionDetailsDisplayCard";
 import TransactionDetailsHeader from "@/components/transactions/TransactionDetailsHeader";
 import TransactionDetailsInfoCard from "@/components/transactions/TransactionDetailsInfoCard";
+import { Screen } from "@/components/ui/Screen";
 
 type DeleteModalProps = {
   modalVisible: boolean;
@@ -80,10 +80,7 @@ const TransactionDetails = () => {
   };
 
   return (
-    <SafeAreaView
-      className="flex-1 bg-kashi-bg p-4 gap-2"
-      edges={["top", "bottom"]}
-    >
+    <Screen className="gap-2" edges={["top", "bottom"]}>
       <TransactionDetailsHeader />
       {isPending ? (
         <View className="flex-1">
@@ -119,7 +116,7 @@ const TransactionDetails = () => {
           </Text>
         </View>
       )}
-    </SafeAreaView>
+    </Screen>
   );
 };
 
