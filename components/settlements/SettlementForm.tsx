@@ -4,6 +4,7 @@ import {
   deleteSettlement,
   updateSettlement,
 } from "@/lib/settlements";
+import { toast } from "@/lib/toast";
 import type { SettlementRecord, SettlementSource } from "@/types/settlements";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -218,8 +219,10 @@ const SettlementForm = ({ source, settlement }: SettlementFormProps) => {
 
       if (isEdit && settlement) {
         await updateSettlement(settlement.id, record);
+        toast.success("Settlement Updated", "Settlement updated successfully.");
       } else {
         await createSettlement(record);
+        toast.success("Settlement Created", "Settlement created successfully.");
       }
 
       route.back();
@@ -252,6 +255,10 @@ const SettlementForm = ({ source, settlement }: SettlementFormProps) => {
               setIsSubmitting(true);
 
               await deleteSettlement(settlement.id);
+              toast.success(
+                "Settlement Deleted",
+                "Settlement deleted successfully.",
+              );
 
               route.back();
             } catch (error) {
