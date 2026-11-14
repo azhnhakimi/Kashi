@@ -1,56 +1,36 @@
 import { colors } from "@/constants/colors";
-import SkeletonLoading from "expo-skeleton-loading";
-import { useState } from "react";
 import { View } from "react-native";
+import { Skeleton } from "../ui/skeleton";
 
 const TransactionDetailsSkeleton = () => {
-  const [h, setH] = useState(0);
-
   return (
-    <View
-      key={h}
-      className="flex-1"
-      onLayout={(e) => setH(e.nativeEvent.layout.height)}
-    >
-      {h > 0 && (
-        <SkeletonLoading background={colors.card} highlight={colors.text.muted}>
-          <View
-            style={{
-              flexDirection: "column",
-              gap: 6,
-              height: h,
-            }}
-          >
-            <View
-              style={{
-                borderRadius: 10,
-                backgroundColor: colors.bg,
-                height: 250,
-              }}
-            />
-            <View
-              style={{
-                borderRadius: 10,
-                backgroundColor: colors.bg,
-                height: 180,
-              }}
-            />
-            <View
-              style={{
-                borderRadius: 10,
-                flex: 1,
-              }}
-            />
-            <View
-              style={{
-                borderRadius: 10,
-                backgroundColor: colors.bg,
-                height: 90,
-              }}
-            />
-          </View>
-        </SkeletonLoading>
-      )}
+    <View className="flex-1 gap-2">
+      <Skeleton
+        width="100%"
+        height={235}
+        borderRadius={16}
+        backgroundColor={colors.card}
+      />
+      <Skeleton
+        width="100%"
+        height={160}
+        borderRadius={16}
+        backgroundColor={colors.card}
+      />
+      <View className="mt-auto gap-2">
+        <Skeleton
+          width="100%"
+          height={50}
+          borderRadius={8}
+          backgroundColor={colors.card}
+        />
+        <Skeleton
+          width="100%"
+          height={50}
+          borderRadius={8}
+          backgroundColor={colors.card}
+        />
+      </View>
     </View>
   );
 };

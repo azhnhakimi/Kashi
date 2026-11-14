@@ -1,3 +1,4 @@
+import { SkeletonProvider } from "@/components/ui/skeleton";
 import { CACHE_MAX_AGE, persister, queryClient } from "@/lib/query-client";
 import "@/root-lib/nativewind";
 import {
@@ -71,34 +72,36 @@ export default function RootLayout() {
         persistOptions={{ persister, maxAge: CACHE_MAX_AGE }}
         onSuccess={() => queryClient.resumePausedMutations()}
       >
-        <Stack
-          screenOptions={{
-            contentStyle: { backgroundColor: "#01010D" },
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="transaction/create" />
-          <Stack.Screen name="transaction/[id]" />
-          <Stack.Screen name="transaction/[id]/edit" />
-          <Stack.Screen name="(dev)" />
-          <Stack.Screen name="settlements/template" />
-          <Stack.Screen name="mapping/create" />
-        </Stack>
-        <StatusBar style="light" />
-        <NavigationBar style="light" />
-        <FlashMessage
-          position="top"
-          statusBarHeight={statusBarHeight}
-          textStyle={{
-            fontFamily: "SpaceGrotesk_400Regular",
-            letterSpacing: -0.6,
-          }}
-          titleStyle={{
-            fontFamily: "SpaceGrotesk_700Bold",
-            letterSpacing: -0.6,
-          }}
-        />
+        <SkeletonProvider>
+          <Stack
+            screenOptions={{
+              contentStyle: { backgroundColor: "#01010D" },
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="transaction/create" />
+            <Stack.Screen name="transaction/[id]" />
+            <Stack.Screen name="transaction/[id]/edit" />
+            <Stack.Screen name="(dev)" />
+            <Stack.Screen name="settlements/template" />
+            <Stack.Screen name="mapping/create" />
+          </Stack>
+          <StatusBar style="light" />
+          <NavigationBar style="light" />
+          <FlashMessage
+            position="top"
+            statusBarHeight={statusBarHeight}
+            textStyle={{
+              fontFamily: "SpaceGrotesk_400Regular",
+              letterSpacing: -0.6,
+            }}
+            titleStyle={{
+              fontFamily: "SpaceGrotesk_700Bold",
+              letterSpacing: -0.6,
+            }}
+          />
+        </SkeletonProvider>
       </PersistQueryClientProvider>
     </>
   );

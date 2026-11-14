@@ -7,7 +7,7 @@ import DailySpendingChart from "@/components/dashboard/DailySpendingChart";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import LatestMonthStatsChart from "@/components/dashboard/LatestMonthsStatsChart";
 import MonthlySpendingCard from "@/components/dashboard/MonthlySpendingCard";
-import TransactionDetailsSkeleton from "@/components/skeletons/TransactionDetailsSkeleton";
+import DashboardSkeleton from "@/components/skeletons/DashboardSkeleton";
 
 export default function Index() {
   const { comparison, categories, daily, monthly, isPending } =
@@ -23,7 +23,7 @@ export default function Index() {
         <DashboardHeader />
         {isPending ? (
           <View className="flex-1">
-            <TransactionDetailsSkeleton />
+            <DashboardSkeleton />
           </View>
         ) : (
           <>

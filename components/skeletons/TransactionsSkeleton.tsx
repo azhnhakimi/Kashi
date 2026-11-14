@@ -1,19 +1,46 @@
 import { colors } from "@/constants/colors";
-import SkeletonLoading from "expo-skeleton-loading";
 import { View } from "react-native";
+import { Skeleton } from "../ui/skeleton";
 
 const TransactionsSkeleton = () => {
   return (
-    <View style={{ flex: 1, margin: 2 }}>
-      <SkeletonLoading background={colors.card} highlight={colors.text.muted}>
-        <View
-          style={{
-            borderRadius: 15,
-            height: "100%",
-            backgroundColor: colors.bg,
-          }}
-        />
-      </SkeletonLoading>
+    <View className="flex-1 gap-2">
+      <Skeleton
+        width="100%"
+        height={94}
+        borderRadius={8}
+        backgroundColor={colors.card}
+      />
+      <Skeleton
+        width="100%"
+        height={94}
+        borderRadius={8}
+        backgroundColor={colors.card}
+      />
+      <Skeleton
+        width="100%"
+        height={94}
+        borderRadius={8}
+        backgroundColor={colors.card}
+      />
+      <Skeleton
+        width="100%"
+        height={94}
+        borderRadius={8}
+        backgroundColor={colors.card}
+      />
+      <Skeleton
+        width="100%"
+        height={94}
+        borderRadius={8}
+        backgroundColor={colors.card}
+      />
+      <Skeleton
+        width="100%"
+        height={94}
+        borderRadius={8}
+        backgroundColor={colors.card}
+      />
     </View>
   );
 };
