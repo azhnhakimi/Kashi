@@ -43,7 +43,7 @@ const Transactions = () => {
   };
 
   return (
-    <Screen>
+    <Screen className="gap-2">
       <TransactionsHeader />
       <MonthlyNavigator
         date={currentDate}
